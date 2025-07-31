@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Track Habits</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #89f7fe, #66a6ff);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      height: 100vh;
+      justify-content: center;
+      align-items: center;
+    }
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+    }
+    .nav-button {
+      display: inline-block;
+      margin: 10px;
+      text-decoration: none;
+      font-weight: bold;
+      color: #333;
+    }
+    label {
+      margin-left: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Track Today's Habits</h1>
+    <div id="trackerList"></div>
+    <div>
+      <a href="index.html" class="nav-button">⬅️ Back</a>
+      <a href="summary.html" class="nav-button">➡️ Next</a>
+    </div>
+  </div>
+
+  <script>
+    function loadTracker() {
+      const container = document.getElementById('trackerList');
+      const habits = JSON.parse(localStorage.getItem('habits') || '[]');
+      container.innerHTML = habits.map((h, i) => `
+        <div>
+          <input type="checkbox" id="habit-${i}" ${h.doneToday ? 'checked' : ''} 
+            onchange="toggleHabit(${i})"/>
+          <label for="habit-${i}">${h.name}</label>
+        </div>
+      `).join('');
+    }
+
+    function toggleHabit(index) {
+      const habits = JSON.parse(localStorage.getItem('habits') || '[]');
+      habits[index].doneToday = !habits[index].doneToday;
+      localStorage.setItem('habits', JSON.stringify(habits));
+    }
+
+    loadTracker();
+  </script>
+</body>
+</html>
