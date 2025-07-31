@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Add Habit</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #89f7fe, #66a6ff);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      height: 100vh;
+      justify-content: center;
+      align-items: center;
+    }
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+    }
+    input, button {
+      padding: 10px;
+      margin-bottom: 10px;
+      width: 80%;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background-color: #66a6ff;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #558de8;
+    }
+    .nav-button {
+      display: inline-block;
+      margin: 10px 10px 0;
+      text-decoration: none;
+      font-weight: bold;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Add a New Habit</h1>
+    <input type="text" id="habitInput" placeholder="e.g. Drink water" />
+    <button onclick="addHabit()">Add Habit</button>
+    <div id="habitList"></div>
+    <div>
+      <a href="tracker.html" class="nav-button">➡️ Next</a>
+    </div>
+  </div>
+
+  <script>
+    function addHabit() {
+      const input = document.getElementById('habitInput');
+      const habits = JSON.parse(localStorage.getItem('habits') || '[]');
+      if (input.value.trim()) {
+        habits.push({ name: input.value.trim(), doneToday: false });
+        localStorage.setItem('habits', JSON.stringify(habits));
+        input.value = '';
+        showHabits();
+      }
+    }
+
+    function showHabits() {
+      const container = document.getElementById('habitList');
+      const habits = JSON.parse(localStorage.getItem('habits') || '[]');
+      container.innerHTML = habits.map(h => `<p>✔️ ${h.name}</p>`).join('');
+    }
+
+    showHabits();
+  </script>
+</body>
+</html>
