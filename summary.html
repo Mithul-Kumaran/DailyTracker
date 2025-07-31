@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Summary</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #89f7fe, #66a6ff);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      height: 100vh;
+      justify-content: center;
+      align-items: center;
+    }
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+    }
+    .nav-button {
+      display: inline-block;
+      margin-top: 15px;
+      text-decoration: none;
+      font-weight: bold;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Habit Summary</h1>
+    <div id="summary"></div>
+    <div>
+      <a href="tracker.html" class="nav-button">⬅️ Back</a>
+    </div>
+  </div>
+
+  <script>
+    function loadSummary() {
+      const container = document.getElementById('summary');
+      const habits = JSON.parse(localStorage.getItem('habits') || '[]');
+      const total = habits.length;
+      const done = habits.filter(h => h.doneToday).length;
+      const percent = total ? Math.round((done / total) * 100) : 0;
+      container.innerHTML = `
+        <p>Total Habits: ${total}</p>
+        <p>Completed Today: ${done}</p>
+        <p>Completion Rate: ${percent}%</p>
+      `;
+    }
+
+    loadSummary();
+  </script>
+</body>
+</html>
